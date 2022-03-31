@@ -6,14 +6,64 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My first Vue project!</title>
     <script src="https://unpkg.com/vue@3.0.2"></script>
+    <style>
+        .box {
+            padding: 100px 0;
+            width: 400px;
+            text-align: center;
+            background-color: #ddd;
+            margin: 20px;
+            display: inline-block;
+        }
+        body {
+            background-color: #eee;
+            max-width: 960px;
+            margin: 20px auto;
+        }
+        p, h3, ul {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            background-color: white;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        li.fav {
+            background-color: #ff9ed2;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <h1>Hello, Vue :)</h1>
 
     <div id="app">
+        <p>{{ filteredBooks }}</p>
+        <!-- attribute binding -->
+        <!-- <a v-bind:href="url">best website</a> -->
+        <a :href="url">best website</a>
         <!-- <h2>I am the template now</h2> -->
         <div v-if="showBooks">
-            <p>{{ title }} - {{ author }} - {{ age }} </p>
+            <!-- <p>{{ title }} - {{ author }} - {{ age }} </p> -->
+            <!-- <p>{{ books[0].title }} - {{ books[0].author }}</p> -->
+            <ul>
+                <li
+                    v-for="book in filteredBooks"
+                    v-for="book in books"
+                    :class="{ fav: book.isFav }"
+                    @click="toggleFav(book)"
+                >
+                    <img :src="book.img" :alt="book.title">
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                </li>
+            </ul>
         </div>
         <button v-on:click="age++">Increase age</button>
         <button v-on:click="age--">Decrease age</button>
@@ -26,6 +76,15 @@
         </button>
 
         <div v-show="showBooks">Currently showing books</div>
+
+        <br>
+        <!-- mouse events -->
+        <div class="box" v-on:mouseover="handleEvent($event, 5)">mouse over</div>
+        <div class="box" @mouseleave="handleEvent">mouse leave</div>
+        <div class="box" @dblclick="handleEvent">double click</div>
+        <div class="box" @mousemove="handleMousemove">
+            Position - {{ x }} {{ y }}
+        </div>
     </div>
 
     <script src="app.js"></script>
